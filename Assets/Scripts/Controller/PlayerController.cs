@@ -1,14 +1,21 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    TimingManager theTimingManager;
 
-    // Update is called once per frame
+    void Start()
+    {
+        theTimingManager = FindAnyObjectByType<TimingManager>();
+    }
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             //판정 체크
+            theTimingManager.CheckTiming();
         }
     }
 }
