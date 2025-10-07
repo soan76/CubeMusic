@@ -11,10 +11,12 @@ public class TimingManager : MonoBehaviour
     Vector2[] timingBoxs = null;
 
     EffectManager theEffect;
+    ScoreManager theScoreManager;
 
     void Start()
     {
         theEffect = FindAnyObjectByType<EffectManager>();
+        theScoreManager = FindAnyObjectByType<ScoreManager>();
 
         // 타이밍 박스 설정
         // 0번째 타이밍 박스 = Perfect (가장 좁은 판정)
@@ -52,7 +54,11 @@ public class TimingManager : MonoBehaviour
                     // Hit 이펙트는 Perfect, Great, Good 일 때만 재생
                     if (x < timingBoxs.Length - 1)
                         theEffect.NoteHitEffect();
+
                     theEffect.JudgementEffect(x);
+
+                    //점수증가
+                    theScoreManager.IncreaseScore(x);
                     return;
                 }
             }

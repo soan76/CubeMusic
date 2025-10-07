@@ -1,3 +1,4 @@
+using UnityEditor.Analytics;
 using UnityEngine;
 
 public class NoteManager : MonoBehaviour
@@ -8,8 +9,6 @@ public class NoteManager : MonoBehaviour
 
     // Note가 생성될 위치
     [SerializeField] Transform tfNoteAppear = null; 
-    // Note Prefab을 담을 변수 
-    [SerializeField] GameObject goNote = null;
 
     TimingManager theTimingManager;
     EffectManager theEffectManager;
@@ -29,8 +28,9 @@ public class NoteManager : MonoBehaviour
         // 60 / 120 = 1비트당 0.5초
         if(currentTime >= 60d / bpm)
         {
-            // 0.5초마다 Note 생성
-            GameObject t_note = Instantiate(goNote, tfNoteAppear.position, Quaternion.identity, tfNoteAppear);
+            GameObject t_note = ObjectPool.instance.noteQueue.Dequeue();
+            t_note.transform.position = tfNoteAppear.position;
+            t_note.SetActive(true);
             theTimingManager.boxNoteList.Add(t_note);
             //t_note.transform.SetParent(this.transform);
             // currentTime에 deltatime을 더하면 0.5100..의 시간오차가 생김
@@ -45,12 +45,13 @@ public class NoteManager : MonoBehaviour
     {
         if (collision.CompareTag("Note"))
         {
-            if(collision.GetComponent<Note>().GetNoteFlag())
+            if (collision.GetComponent<Note>().GetNoteFlag())
                 theEffectManager.JudgementEffect(4);
-            
+
             theTimingManager.boxNoteList.Remove(collision.gameObject);
-            Destroy(collision.gameObject);
-            
+            ObjectPool.instance.noteQueue.Enqueue(collision.gameObject);
+            collision.gameObject.SetActive(false);
+
         }
     }
 }

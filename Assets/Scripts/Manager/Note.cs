@@ -7,14 +7,22 @@ public class Note : MonoBehaviour
     UnityEngine.UI.Image noteImage;
     private Rigidbody2D rb;
 
-    void Start()
+    void OnEnable()
     {
-        rb = GetComponent<Rigidbody2D>();
-        noteImage = GetComponent<UnityEngine.UI.Image>();
+        if (rb == null)
+            rb = GetComponent<Rigidbody2D>();
 
-        // 노트가 중력 영향 안 받도록
+        if (noteImage == null)
+            noteImage = GetComponent<UnityEngine.UI.Image>();
+
+        noteImage.enabled = true;
+
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0f);
+
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        Canvas.ForceUpdateCanvases();
     }
 
     void FixedUpdate() // 물리 업데이트 프레임에서 실행
