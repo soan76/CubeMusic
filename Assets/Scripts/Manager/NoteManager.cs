@@ -12,11 +12,13 @@ public class NoteManager : MonoBehaviour
 
     TimingManager theTimingManager;
     EffectManager theEffectManager;
+    ComboManager theComboManager;
 
     void Start()
     {
         theEffectManager = FindAnyObjectByType<EffectManager>();
         theTimingManager = FindAnyObjectByType<TimingManager>();
+        theComboManager = FindAnyObjectByType<ComboManager>();
     }
 
     // Update is called once per frame
@@ -46,7 +48,11 @@ public class NoteManager : MonoBehaviour
         if (collision.CompareTag("Note"))
         {
             if (collision.GetComponent<Note>().GetNoteFlag())
+            {
                 theEffectManager.JudgementEffect(4);
+                theComboManager.ResetCombo();
+            }
+                
 
             theTimingManager.boxNoteList.Remove(collision.gameObject);
             ObjectPool.instance.noteQueue.Enqueue(collision.gameObject);

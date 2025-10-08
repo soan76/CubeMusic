@@ -12,11 +12,13 @@ public class TimingManager : MonoBehaviour
 
     EffectManager theEffect;
     ScoreManager theScoreManager;
+    ComboManager theComboManager;
 
     void Start()
     {
         theEffect = FindAnyObjectByType<EffectManager>();
         theScoreManager = FindAnyObjectByType<ScoreManager>();
+        theComboManager = FindAnyObjectByType<ComboManager>();
 
         // 타이밍 박스 설정
         // 0번째 타이밍 박스 = Perfect (가장 좁은 판정)
@@ -34,7 +36,7 @@ public class TimingManager : MonoBehaviour
         }
     }
 
-    public void CheckTiming()
+    public bool CheckTiming()
     {
         for (int i = 0; i < boxNoteList.Count; i++)
         {
@@ -59,10 +61,12 @@ public class TimingManager : MonoBehaviour
 
                     //점수증가
                     theScoreManager.IncreaseScore(x);
-                    return;
+                    return true;
                 }
             }
         }
+        theComboManager.ResetCombo();
         theEffect.JudgementEffect(timingBoxs.Length - 1);
+        return false;
     }
 }
