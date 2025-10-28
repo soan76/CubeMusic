@@ -13,12 +13,16 @@ public class TimingManager : MonoBehaviour
     EffectManager theEffect;
     ScoreManager theScoreManager;
     ComboManager theComboManager;
+    StageManager theStageManager;
+    PlayerController thePlayer;
 
     void Start()
     {
         theEffect = FindAnyObjectByType<EffectManager>();
         theScoreManager = FindAnyObjectByType<ScoreManager>();
         theComboManager = FindAnyObjectByType<ComboManager>();
+        theStageManager = FindAnyObjectByType<StageManager>();
+        thePlayer = FindAnyObjectByType<PlayerController>();
 
         // 타이밍 박스 설정
         // 0번째 타이밍 박스 = Perfect (가장 좁은 판정)
@@ -57,16 +61,53 @@ public class TimingManager : MonoBehaviour
                     if (x < timingBoxs.Length - 1)
                         theEffect.NoteHitEffect();
 
-                    theEffect.JudgementEffect(x);
 
-                    //점수증가
-                    theScoreManager.IncreaseScore(x);
+
+
+
+                    //다음 스테이지 바닥 호출
+                    if (CheckCanNextPlate())
+                    {
+                        //점수증가
+                        theScoreManager.IncreaseScore(x);
+                        // 판때기 등장
+                        theStageManager.ShowNextPalte();
+                        theEffect.JudgementEffect(x);
+                    }
+                    else
+                    {
+                        theEffect.JudgementEffect(5);
+                    }
+                    
+                        
                     return true;
                 }
             }
         }
         theComboManager.ResetCombo();
         theEffect.JudgementEffect(timingBoxs.Length - 1);
+
+        return false;
+    }
+
+    bool CheckCanNextPlate()
+    {
+        // Physics.Raycast() = 가상의 광선을 쏴서 맞은 대상의 정보를 가져오는 함수
+        // 광선위치, 방향, 충돌정보, 길이
+        // 플레이어의 위치에서 아래방향으로 레이저를 쏘고 레이저에 부딪힌 객체의 정보를 획득, 길이
+        if (Physics.Raycast(thePlayer.destPos, Vector3.down, out RaycastHit t_hitInfo, 1.1f))
+        {
+            if (t_hitInfo.transform.CompareTag("BasicPlate"))
+            {
+                BasicPlate t_plate = t_hitInfo.transform.GetComponent<BasicPlate>();
+                if (t_plate.flag)
+                {
+                    t_plate.flag = false;
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 }
