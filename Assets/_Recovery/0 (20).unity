@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 33315962}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2073,35 +2073,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 525733526996068327, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
       propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
-      propertyPath: m_Size.x
-      value: 0.8000002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
-      propertyPath: m_Size.y
-      value: 0.99999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
-      propertyPath: m_Size.z
-      value: 0.6000004
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
-      propertyPath: m_Center.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
-      propertyPath: m_Center.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1781125316327315005, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3475039789895995428, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

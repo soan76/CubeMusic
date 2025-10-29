@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,9 +63,6 @@ public class TimingManager : MonoBehaviour
                         theEffect.NoteHitEffect();
 
 
-
-
-
                     //다음 스테이지 바닥 호출
                     if (CheckCanNextPlate())
                     {
@@ -78,8 +76,10 @@ public class TimingManager : MonoBehaviour
                     {
                         theEffect.JudgementEffect(5);
                     }
-                    
-                        
+
+                    StartCoroutine(WaitAndCheckNextPlate());
+
+
                     return true;
                 }
             }
@@ -89,6 +89,26 @@ public class TimingManager : MonoBehaviour
 
         return false;
     }
+    
+    private IEnumerator WaitAndCheckNextPlate()
+{
+    // ✅ 이동 코루틴(MoveGo/SpinCo)이 끝날 시간을 살짝 기다림
+    yield return new WaitForSeconds(0.15f);
+
+    // Raycast를 Collider 밖에서 쏘도록 살짝 위로 올림
+    if (Physics.Raycast(thePlayer.destPos + Vector3.up * 0.5f, Vector3.down, out RaycastHit t_hitInfo, 1.1f))
+    {
+        if (t_hitInfo.transform.CompareTag("BasicPlate"))
+        {
+            BasicPlate t_plate = t_hitInfo.transform.GetComponent<BasicPlate>();
+            if (t_plate.flag)
+            {
+                t_plate.flag = false;
+                theStageManager.ShowNextPalte();
+            }
+        }
+    }
+}
 
     bool CheckCanNextPlate()
     {

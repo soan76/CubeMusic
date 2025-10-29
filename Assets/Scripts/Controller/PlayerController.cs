@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public static bool s_canPresskey = true;
+
     // 이동
     [SerializeField] float moveSpeed = 3;
     private Vector3 dir;
@@ -41,8 +43,9 @@ public class PlayerController : MonoBehaviour
             Keyboard.current.dKey.wasPressedThisFrame ||
             Keyboard.current.wKey.wasPressedThisFrame)
         {
-            if (canMove)
+            if (canMove && s_canPresskey)
             {
+                //타이밍을 체크하기 전에 미리
                 Calc();
 
                 //판정 체크
