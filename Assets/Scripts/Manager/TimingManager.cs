@@ -91,24 +91,24 @@ public class TimingManager : MonoBehaviour
     }
     
     private IEnumerator WaitAndCheckNextPlate()
-{
-    // ✅ 이동 코루틴(MoveGo/SpinCo)이 끝날 시간을 살짝 기다림
-    yield return new WaitForSeconds(0.15f);
-
-    // Raycast를 Collider 밖에서 쏘도록 살짝 위로 올림
-    if (Physics.Raycast(thePlayer.destPos + Vector3.up * 0.5f, Vector3.down, out RaycastHit t_hitInfo, 1.1f))
     {
-        if (t_hitInfo.transform.CompareTag("BasicPlate"))
+        // ✅ 이동 코루틴(MoveGo/SpinCo)이 끝날 시간을 살짝 기다림
+        yield return new WaitForSeconds(0.15f);
+
+        // Raycast를 Collider 밖에서 쏘도록 살짝 위로 올림
+        if (Physics.Raycast(thePlayer.destPos + Vector3.up * 0.5f, Vector3.down, out RaycastHit t_hitInfo, 1.1f))
         {
-            BasicPlate t_plate = t_hitInfo.transform.GetComponent<BasicPlate>();
-            if (t_plate.flag)
+            if (t_hitInfo.transform.CompareTag("BasicPlate"))
             {
-                t_plate.flag = false;
-                theStageManager.ShowNextPalte();
+                BasicPlate t_plate = t_hitInfo.transform.GetComponent<BasicPlate>();
+                if (t_plate.flag)
+                {
+                    t_plate.flag = false;
+                    theStageManager.ShowNextPalte();
+                }
             }
         }
     }
-}
 
     bool CheckCanNextPlate()
     {

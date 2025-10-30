@@ -6,29 +6,16 @@ public class PlayerController : MonoBehaviour
 {
     public static bool s_canPresskey = true;
 
-    // 이동
-    [SerializeField] float moveSpeed = 3;
-    private Vector3 dir;
+    [Header("이동 속도")]
+    [SerializeField] float moveSpeed = 3f;
+    [SerializeField] CubeRotator cubeRotator; // 🔹 회전 담당 스크립트 연결
+
+    private Vector3 moveDir;
     public Vector3 destPos;
-    private bool isMoving = false;
+    private bool canMove = true;
 
-    // 회전
-    [SerializeField] float spinSpeed = 270;
-    Vector3 rotDir = new Vector3();
-    Quaternion destRot = new Quaternion();
-
-    // 반동
-    [SerializeField] float recoilPosY = 0.25f;
-    [SerializeField] float recoilSpeed = 1.5f;
-
-    bool canMove = true;
-
-    // 기타
-    [SerializeField] Transform fakeCube = null;
-    [SerializeField] Transform realCube = null;
-
-    TimingManager theTimingManager;
-    CameraController theCam;
+    private TimingManager theTimingManager;
+    private CameraController theCam;
 
     void Start()
     {
@@ -38,17 +25,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!canMove) return;
+
         if (Keyboard.current.aKey.wasPressedThisFrame ||
             Keyboard.current.sKey.wasPressedThisFrame ||
             Keyboard.current.dKey.wasPressedThisFrame ||
             Keyboard.current.wKey.wasPressedThisFrame)
         {
-            if (canMove && s_canPresskey)
+            if (s_canPresskey && canMove)
             {
-                //타이밍을 체크하기 전에 미리
                 Calc();
 
-                //판정 체크
                 if (theTimingManager.CheckTiming())
                 {
                     StartAction();
@@ -59,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
     void Calc()
     {
-        // 방향계산
         float horizontal = 0f;
         float vertical = 0f;
 
@@ -68,96 +54,41 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.aKey.wasPressedThisFrame) horizontal = -1f;
         if (Keyboard.current.dKey.wasPressedThisFrame) horizontal = 1f;
 
-        // 방향계산
-        dir = new Vector3(horizontal, 0f, vertical);
+        moveDir = new Vector3(horizontal, 0f, vertical);
 
-        // ✅ 중복 키 입력 방지
-        if (dir.x != 0f && dir.z != 0f)
+        // 대각 입력 방지
+        if (moveDir.x != 0f && moveDir.z != 0f)
         {
-            // 최근 입력된 키 기준으로 하나만 유지
             if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
-                dir.z = 0f;
+                moveDir.z = 0f;
             else
-                dir.x = 0f;
+                moveDir.x = 0f;
         }
 
-        if (dir == Vector3.zero) return;
+        if (moveDir == Vector3.zero) return;
 
-        // 이동 목표값 계산
-        destPos = transform.position + new Vector3(-dir.x, 0, dir.z);
-        // 회전 목표값 계산
-        if (dir.z > 0)          // W (앞)
-            rotDir = Vector3.left;    // X축 음수
-        else if (dir.z < 0)     // S (뒤)
-            rotDir = Vector3.right;   // X축 양수
-        else if (dir.x > 0)     // D (오른쪽)
-            rotDir = Vector3.back;    // Z축 음수
-        else if (dir.x < 0)     // A (왼쪽)
-            rotDir = Vector3.forward; // Z축 양수
-
-
-        // ✅ 회전 중심 수정 (Pivot 하단)
-        Vector3 pivot = transform.position + Vector3.down * (realCube.localScale.y / 2f);
-
-        // RotateAround = 공전 대상, 회전 축, 회전값)을 이용한 편법 회전 구현
-        fakeCube.rotation = realCube.rotation; // 회전 초기화 (누적 방지)
-        fakeCube.RotateAround(pivot, rotDir, spinSpeed);
-        destRot = fakeCube.rotation;
+        // 이동 목표 설정
+        destPos = transform.position + new Vector3(-moveDir.x, 0, moveDir.z);
     }
 
     void StartAction()
     {
-        StartCoroutine(MoveGo());
-        StartCoroutine(SpinCo());
-        StartCoroutine(RecoilCo());
+        StartCoroutine(MoveCo());
+        cubeRotator.StartRolling(moveDir); // 🎯 회전 요청
         StartCoroutine(theCam.ZoomCam());
     }
-    IEnumerator MoveGo()
+
+    IEnumerator MoveCo()
     {
         canMove = false;
-        isMoving = true;
 
-        // Vector3.SqrMagnitude = 제곱근을 리턴 ex: SqrMagnitude(4) = 2
         while (Vector3.SqrMagnitude(transform.position - destPos) >= 0.001f)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                destPos,
-                moveSpeed * Time.deltaTime
-            );
+            transform.position = Vector3.MoveTowards(transform.position, destPos, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
         transform.position = destPos;
-        isMoving = false;
         canMove = true;
-    }
-
-    IEnumerator SpinCo()
-    {
-        while (Quaternion.Angle(realCube.rotation, destRot) > 0.5f)
-        {
-            realCube.rotation = Quaternion.RotateTowards(realCube.rotation, destRot, spinSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        realCube.rotation = destRot;
-    }
-
-    IEnumerator RecoilCo()
-    {
-        while (realCube.position.y < recoilPosY)
-        {
-            realCube.position += new Vector3(0, recoilSpeed * Time.deltaTime, 0);
-            yield return null;
-        }
-
-        while (realCube.position.y > 0)
-        {
-            realCube.position -= new Vector3(0, recoilSpeed * Time.deltaTime, 0);
-            yield return null;
-        }
-
-        realCube.localPosition = new Vector3(0, 0, 0);
     }
 }

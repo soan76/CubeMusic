@@ -132,7 +132,6 @@ GameObject:
   - component: {fileID: 33315960}
   - component: {fileID: 33315959}
   - component: {fileID: 33315962}
-  - component: {fileID: 33315963}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -259,23 +258,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &33315963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 33315957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 198de8bc01c421943a8e3f1d599bf80f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CubeRotator
-  spinSpeed: 270
-  recoilPosY: 0.25
-  recoilSpeed: 1.5
-  fakeCube: {fileID: 1960217843}
-  realCube: {fileID: 33315958}
 --- !u!1 &48480048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 3
-  cubeRotator: {fileID: 33315963}
+  cubeRotator: {fileID: 0}
   destPos: {x: 0, y: 0, z: 0}
   spinSpeed: 270
   recoilPosY: 0.25
