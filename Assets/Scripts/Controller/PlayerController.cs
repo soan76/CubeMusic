@@ -8,23 +8,34 @@ public class PlayerController : MonoBehaviour
 
     [Header("이동 속도")]
     [SerializeField] float moveSpeed = 3f;
-    [SerializeField] CubeRotator cubeRotator; // 🔹 회전 담당 스크립트 연결
+    [SerializeField] CubeRotator cubeRotator; // 회전 담당 스크립트 연결
+
+    // 낭떠러지로 추락했을때 플레이어를 원위치로 돌아오게 함
+    Vector3 originPos = new Vector3();
 
     private Vector3 moveDir;
     public Vector3 destPos;
     private bool canMove = true;
+    bool isFalling = false;
 
     private TimingManager theTimingManager;
     private CameraController theCam;
+    // 추락에 필요한 중력
+    Rigidbody myRigid;
 
     void Start()
     {
         theTimingManager = FindAnyObjectByType<TimingManager>();
         theCam = FindAnyObjectByType<CameraController>();
+        // GetComponentInChildren = 자식 객체중에 특정 컴포넌트가 있다면 가져옴
+        myRigid = GetComponentInChildren<Rigidbody>();
+        originPos = transform.position;
     }
 
     void Update()
     {
+        CheckFalling();
+
         if (!canMove) return;
 
         if (Keyboard.current.aKey.wasPressedThisFrame ||
@@ -32,7 +43,7 @@ public class PlayerController : MonoBehaviour
             Keyboard.current.dKey.wasPressedThisFrame ||
             Keyboard.current.wKey.wasPressedThisFrame)
         {
-            if (s_canPresskey && canMove)
+            if (s_canPresskey && canMove && !isFalling)
             {
                 Calc();
 
@@ -74,7 +85,7 @@ public class PlayerController : MonoBehaviour
     void StartAction()
     {
         StartCoroutine(MoveCo());
-        cubeRotator.StartRolling(moveDir); // 🎯 회전 요청
+        cubeRotator.StartRolling(moveDir); // 회전 요청
         StartCoroutine(theCam.ZoomCam());
     }
 
@@ -90,5 +101,34 @@ public class PlayerController : MonoBehaviour
 
         transform.position = destPos;
         canMove = true;
+    }
+
+    // 레이저를 쏴서 바닥 오브젝트가 있는지 없는지 확인
+    // 자기자신의 위치에서 밑으로 레이저를 쏨
+    void CheckFalling()
+    {
+        if(!isFalling && canMove)
+        {
+            if (!Physics.Raycast(transform.position, Vector3.down, 1.1f))
+            {
+                Falling();
+            }
+        }
+    }
+
+    void Falling()
+    {
+        isFalling = true;
+        myRigid.useGravity = true;
+        myRigid.isKinematic = false;
+    }
+    
+    public void ResetFalling()
+    {
+        isFalling = false;
+        myRigid.useGravity = false;
+        myRigid.isKinematic = true;
+        transform.position = originPos;
+        cubeRotator.ResetRealCube();
     }
 }
