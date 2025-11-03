@@ -54,4 +54,9 @@ public class ScoreManager : MonoBehaviour
             Debug.LogWarning("⚠️ ScoreManager: Animator가 연결되지 않았습니다. Text (TMP)에 Animator가 붙어 있는지 확인하세요.");
         }
     }
+
+    public int GetCurrentScore()
+    {
+        return currentScore;
+    }
 }

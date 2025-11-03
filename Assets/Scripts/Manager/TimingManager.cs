@@ -6,6 +6,9 @@ public class TimingManager : MonoBehaviour
 {
     // 생성된 노트를 담는 리스트 -> 판정범위에 있는지 확인해야하기 때문
     public List<GameObject> boxNoteList = new List<GameObject>();
+
+    int[] judgementRecord = new int[5];
+
     [SerializeField] Transform Center = null;
     [SerializeField] RectTransform[] timingRect = null;
     // TimingBox => 판정 범위의 최소값(x) 최대값(y)
@@ -70,7 +73,8 @@ public class TimingManager : MonoBehaviour
                         theScoreManager.IncreaseScore(x);
                         // 판때기 등장
                         theStageManager.ShowNextPalte();
-                        theEffect.JudgementEffect(x);
+                        theEffect.JudgementEffect(x); // 판정 연출
+                        judgementRecord[x]++; // 판정 기록
                     }
                     else
                     {
@@ -86,6 +90,7 @@ public class TimingManager : MonoBehaviour
         }
         theComboManager.ResetCombo();
         theEffect.JudgementEffect(timingBoxs.Length - 1);
+        MissRecord();
 
         return false;
     }
@@ -129,5 +134,15 @@ public class TimingManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public int[] GetJudgementRecord()
+    {
+        return judgementRecord;
+    }
+
+    public void MissRecord()
+    {
+        judgementRecord[4]++;
     }
 }

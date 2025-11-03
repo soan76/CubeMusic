@@ -7,6 +7,7 @@ public class ComboManager : MonoBehaviour
     [SerializeField] TMP_Text txtCombo = null;
 
     int currentCombo = 0;
+    int maxCombo = 0;
 
     Animator txtAnim;
     Animator imgAnim;
@@ -26,6 +27,9 @@ public class ComboManager : MonoBehaviour
         // 증가할 콤보수
         currentCombo += p_num;
         txtCombo.text = string.Format("{0:#,##0}", currentCombo);
+
+        if (maxCombo < currentCombo)
+            maxCombo = currentCombo;
 
         if (currentCombo > 2)
         {
@@ -49,5 +53,10 @@ public class ComboManager : MonoBehaviour
         txtCombo.text = "0";
         txtCombo.gameObject.SetActive(false);
         goComboImage.SetActive(false);
+    }
+
+    public int GetMaxCombo()
+    {
+        return maxCombo;
     }
 }
