@@ -19,6 +19,7 @@ public class TimingManager : MonoBehaviour
     ComboManager theComboManager;
     StageManager theStageManager;
     PlayerController thePlayer;
+    StatusManager theStatusManager;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class TimingManager : MonoBehaviour
         theComboManager = FindAnyObjectByType<ComboManager>();
         theStageManager = FindAnyObjectByType<StageManager>();
         thePlayer = FindAnyObjectByType<PlayerController>();
+        theStatusManager = FindAnyObjectByType<StatusManager>();
 
         // 타이밍 박스 설정
         // 0번째 타이밍 박스 = Perfect (가장 좁은 판정)
@@ -75,6 +77,7 @@ public class TimingManager : MonoBehaviour
                         theStageManager.ShowNextPalte();
                         theEffect.JudgementEffect(x); // 판정 연출
                         judgementRecord[x]++; // 판정 기록
+                        theStatusManager.CheckShield(); // 쉴드 체크
                     }
                     else
                     {
@@ -144,5 +147,6 @@ public class TimingManager : MonoBehaviour
     public void MissRecord()
     {
         judgementRecord[4]++;
+        theStatusManager.ResetShieldCombo();
     }
 }

@@ -22,10 +22,12 @@ public class PlayerController : MonoBehaviour
     private CameraController theCam;
     // 추락에 필요한 중력
     Rigidbody myRigid;
+    StatusManager theStatus;
 
     void Start()
     {
         theTimingManager = FindAnyObjectByType<TimingManager>();
+        theStatus = FindAnyObjectByType<StatusManager>();
         theCam = FindAnyObjectByType<CameraController>();
         // GetComponentInChildren = 자식 객체중에 특정 컴포넌트가 있다면 가져옴
         myRigid = GetComponentInChildren<Rigidbody>();
@@ -125,10 +127,19 @@ public class PlayerController : MonoBehaviour
     
     public void ResetFalling()
     {
-        isFalling = false;
-        myRigid.useGravity = false;
-        myRigid.isKinematic = true;
-        transform.position = originPos;
-        cubeRotator.ResetRealCube();
+        // 체력이 1씩 감소
+        theStatus.DecreaseHp(1);
+
+        // 플레이어가 죽으면 추락으로 인한 위치 조정 막기
+        if(!theStatus.IsDead())
+        {
+            isFalling = false;  
+            myRigid.useGravity = false;
+            myRigid.isKinematic = true;
+
+            transform.position = originPos;
+            cubeRotator.ResetRealCube();
+        }
+        
     }
 }
