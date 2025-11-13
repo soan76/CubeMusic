@@ -36,22 +36,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        CheckFalling();
-
-        if (!canMove) return;
-
-        if (Keyboard.current.aKey.wasPressedThisFrame ||
-            Keyboard.current.sKey.wasPressedThisFrame ||
-            Keyboard.current.dKey.wasPressedThisFrame ||
-            Keyboard.current.wKey.wasPressedThisFrame)
+        if(GameManager.instance.isStartGame)
         {
-            if (s_canPresskey && canMove && !isFalling)
-            {
-                Calc();
+            CheckFalling();
 
-                if (theTimingManager.CheckTiming())
+            if (!canMove) return;
+
+            if (Keyboard.current.aKey.wasPressedThisFrame ||
+                Keyboard.current.sKey.wasPressedThisFrame ||
+                Keyboard.current.dKey.wasPressedThisFrame ||
+                Keyboard.current.wKey.wasPressedThisFrame)
+            {
+                if (s_canPresskey && canMove && !isFalling)
                 {
-                    StartAction();
+                    Calc();
+
+                    if (theTimingManager.CheckTiming())
+                    {
+                        StartAction();
+                    }
                 }
             }
         }
@@ -129,6 +132,7 @@ public class PlayerController : MonoBehaviour
     {
         // 체력이 1씩 감소
         theStatus.DecreaseHp(1);
+        AudioManager.instance.PlaySFX("Falling");
 
         // 플레이어가 죽으면 추락으로 인한 위치 조정 막기
         if(!theStatus.IsDead())

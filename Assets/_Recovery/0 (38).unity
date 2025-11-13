@@ -726,60 +726,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 506657382084513121, guid: 95fb71408ace4e94a8233d834844aac3, type: 3}
   m_PrefabInstance: {fileID: 80494776}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &137691113
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 137691114}
-  - component: {fileID: 137691115}
-  m_Layer: 5
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &137691114
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137691113}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 946998904}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &137691115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137691113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fca9c2b8a7ff874b934ce2f2abd3b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  goGameUi:
-  - {fileID: 586532051}
-  - {fileID: 293803994}
-  - {fileID: 840787423}
-  goTitleUI: {fileID: 1620329529}
-  isStartGame: 0
 --- !u!1 &148071186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,7 +1361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &293803995
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2637,7 +2583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &586532052
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3438,7 +3384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &840787424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3724,7 +3670,7 @@ GameObject:
   - component: {fileID: 911868600}
   - component: {fileID: 911868599}
   m_Layer: 5
-  m_Name: Btn_Retry
+  m_Name: Button (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4079,7 +4025,6 @@ RectTransform:
   m_Children:
   - {fileID: 1620329530}
   - {fileID: 1995453983}
-  - {fileID: 137691114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4229,7 +4174,7 @@ GameObject:
   - component: {fileID: 962413283}
   - component: {fileID: 962413282}
   m_Layer: 5
-  m_Name: Btn_MainMenu
+  m_Name: Button (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4298,19 +4243,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 962413283}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1494750682}
-        m_TargetAssemblyTypeName: Result, Assembly-CSharp
-        m_MethodName: BtnMainMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &962413283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7151,7 +7084,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1995453984}
         m_TargetAssemblyTypeName: StageMenu, Assembly-CSharp
-        m_MethodName: BtnPlay
+        m_MethodName: BtnBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

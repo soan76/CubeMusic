@@ -20,9 +20,11 @@ public class TimingManager : MonoBehaviour
     StageManager theStageManager;
     PlayerController thePlayer;
     StatusManager theStatusManager;
+    AudioManager theAudioManager;
 
     void Start()
     {
+        theAudioManager = AudioManager.instance;
         theEffect = FindAnyObjectByType<EffectManager>();
         theScoreManager = FindAnyObjectByType<ScoreManager>();
         theComboManager = FindAnyObjectByType<ComboManager>();
@@ -85,7 +87,7 @@ public class TimingManager : MonoBehaviour
                     }
 
                     StartCoroutine(WaitAndCheckNextPlate());
-
+                    theAudioManager.PlaySFX("Clap");
 
                     return true;
                 }
@@ -100,7 +102,7 @@ public class TimingManager : MonoBehaviour
     
     private IEnumerator WaitAndCheckNextPlate()
     {
-        // ✅ 이동 코루틴(MoveGo/SpinCo)이 끝날 시간을 살짝 기다림
+        // 이동 코루틴(MoveGo/SpinCo)이 끝날 시간을 살짝 기다림
         yield return new WaitForSeconds(0.15f);
 
         // Raycast를 Collider 밖에서 쏘도록 살짝 위로 올림
