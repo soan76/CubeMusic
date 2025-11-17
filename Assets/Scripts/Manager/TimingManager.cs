@@ -151,4 +151,12 @@ public class TimingManager : MonoBehaviour
         judgementRecord[4]++;
         theStatusManager.ResetShieldCombo();
     }
+    public void Initialized()
+    {
+        judgementRecord[0] = 0;
+        judgementRecord[1] = 0;
+        judgementRecord[2] = 0;
+        judgementRecord[3] = 0;
+        judgementRecord[4] = 0;
+    }
 }

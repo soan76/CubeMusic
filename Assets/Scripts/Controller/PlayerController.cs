@@ -33,7 +33,17 @@ public class PlayerController : MonoBehaviour
         myRigid = GetComponentInChildren<Rigidbody>();
         originPos = transform.position;
     }
-
+    public void Initialized()
+    {
+        transform.position = Vector3.zero;
+        destPos = Vector3.zero;
+        cubeRotator.ResetRealCube();
+        canMove = true;
+        s_canPresskey = true;
+        isFalling = false;
+        myRigid.useGravity = false;
+        myRigid.isKinematic = true;
+    }
     void Update()
     {
         if(GameManager.instance.isStartGame)

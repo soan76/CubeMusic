@@ -10,10 +10,22 @@ public class GameManager : MonoBehaviour
 
     public bool isStartGame = false;
 
+    ComboManager theCombo;
+    ScoreManager theScore;
+    TimingManager thetiming;
+    StatusManager theStatus;
+    PlayerController thePlayer;
+    StageManager theStage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         instance = this;
+        theStage = FindAnyObjectByType<StageManager>();
+        theCombo = FindAnyObjectByType<ComboManager>();
+        theScore = FindAnyObjectByType<ScoreManager>();
+        thetiming = FindAnyObjectByType<TimingManager>();
+        theStatus = FindAnyObjectByType<StatusManager>();
+        thePlayer = FindAnyObjectByType<PlayerController>();
     }
 
     public void GameStart()
@@ -22,7 +34,13 @@ public class GameManager : MonoBehaviour
         {
             goGameUi[i].gameObject.SetActive(true);
         }
-
+        theStage.RemoveStage();
+        theCombo.ResetCombo();
+        theStage.SettingStage();
+        theScore.Initialized();
+        thetiming.Initialized();
+        theStatus.Initialized();
+        thePlayer.Initialized();
         isStartGame = true;
     }
 
