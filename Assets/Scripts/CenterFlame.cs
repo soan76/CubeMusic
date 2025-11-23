@@ -4,6 +4,9 @@ using UnityEngine;
 public class CenterFlame : MonoBehaviour
 {
     bool musicStart = false;
+
+    public string bgmName = "";
+
     public void ResetMusic()
     {
         musicStart = false;
@@ -14,7 +17,7 @@ public class CenterFlame : MonoBehaviour
         {
             if (collision.CompareTag("Note"))
             {
-                AudioManager.instance.PlayBGM("BGM0");
+                AudioManager.instance.PlayBGM(bgmName);
                 musicStart = true;
             }
         }

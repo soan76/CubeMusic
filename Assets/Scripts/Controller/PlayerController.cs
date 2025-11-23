@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         myRigid = GetComponentInChildren<Rigidbody>();
         originPos = transform.position;
     }
+    // 게임이 시작될때 초기화 (위치 초기화 등  )
     public void Initialized()
     {
         transform.position = Vector3.zero;

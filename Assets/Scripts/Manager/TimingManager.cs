@@ -148,7 +148,7 @@ public class TimingManager : MonoBehaviour
 
     public void MissRecord()
     {
-        judgementRecord[4]++;
+        judgementRecord[4]++; // Miss 카운트 증가
         theStatusManager.ResetShieldCombo();
     }
     public void Initialized()

@@ -34,6 +34,7 @@ public class StatusManager : MonoBehaviour
         theResult = FindAnyObjectByType<Result>();
         theNote = FindAnyObjectByType<NoteManager>();
     }
+    // 게임이 시작될때 초기화
     public void Initialized()
     {
         currentHp = maxHp;

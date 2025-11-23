@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class NoteManager : MonoBehaviour
 {
-
     public int bpm = 0; 
     double currentTime = 0f;
 

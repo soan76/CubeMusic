@@ -74,5 +74,6 @@ public class CubeRotator : MonoBehaviour
     public void ResetRealCube()
     {
         realCube.localPosition = Vector3.zero;
+        realCube.localRotation = Quaternion.identity;
     }
 }

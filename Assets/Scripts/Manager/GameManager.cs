@@ -16,10 +16,15 @@ public class GameManager : MonoBehaviour
     StatusManager theStatus;
     PlayerController thePlayer;
     StageManager theStage;
+    NoteManager theNote;
+    // CenterFlame은 처음부터 비활성화된 객체는 FindAnyObjectByType로 찾을 수 없음
+    [SerializeField] CenterFlame theMusic = null;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         instance = this;
+        theNote = FindAnyObjectByType<NoteManager>();
         theStage = FindAnyObjectByType<StageManager>();
         theCombo = FindAnyObjectByType<ComboManager>();
         theScore = FindAnyObjectByType<ScoreManager>();
@@ -28,12 +33,14 @@ public class GameManager : MonoBehaviour
         thePlayer = FindAnyObjectByType<PlayerController>();
     }
 
-    public void GameStart()
+    public void GameStart(int p_songNum, int p_bpm)
     {
         for(int i = 0; i < goGameUi.Length; i++)
         {
             goGameUi[i].gameObject.SetActive(true);
         }
+        theMusic.bgmName = "BGM" + p_songNum;
+        theNote.bpm = p_bpm;
         theStage.RemoveStage();
         theCombo.ResetCombo();
         theStage.SettingStage();
@@ -41,6 +48,9 @@ public class GameManager : MonoBehaviour
         thetiming.Initialized();
         theStatus.Initialized();
         thePlayer.Initialized();
+
+        AudioManager.instance.StopBGM();
+
         isStartGame = true;
     }
 
