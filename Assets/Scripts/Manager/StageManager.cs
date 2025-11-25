@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] GameObject stage = null;
+    [SerializeField] GameObject[] stageArray = null;
     GameObject currentStage;
     // 스테이지의 바닥들
     Transform[] stagePlates;
@@ -25,11 +25,11 @@ public class StageManager : MonoBehaviour
         }
     }
     
-    public void SettingStage()
+    public void SettingStage(int p_songNum)
     {   
         stepCount = 0;
 
-        currentStage = Instantiate(stage,Vector3.zero,Quaternion.identity);
+        currentStage = Instantiate(stageArray[p_songNum],Vector3.zero,Quaternion.identity);
         stagePlates = currentStage.GetComponent<Stage>().plates;
         totalPlateCount = stagePlates.Length;
 

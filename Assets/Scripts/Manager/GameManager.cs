@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 
     public bool isStartGame = false;
 
+    //재시작을 위한 저장 변수
+    public int lastSongNum = 0; // 마지막으로 플레이한 노래번호
+    public int lastBpm = 0; // 마지막으로 플레이한 bpm
+
     ComboManager theCombo;
     ScoreManager theScore;
     TimingManager thetiming;
@@ -17,6 +21,7 @@ public class GameManager : MonoBehaviour
     PlayerController thePlayer;
     StageManager theStage;
     NoteManager theNote;
+    Result theResult;
     // CenterFlame은 처음부터 비활성화된 객체는 FindAnyObjectByType로 찾을 수 없음
     [SerializeField] CenterFlame theMusic = null;
 
@@ -31,6 +36,7 @@ public class GameManager : MonoBehaviour
         thetiming = FindAnyObjectByType<TimingManager>();
         theStatus = FindAnyObjectByType<StatusManager>();
         thePlayer = FindAnyObjectByType<PlayerController>();
+        theResult = FindAnyObjectByType<Result>();
     }
 
     public void GameStart(int p_songNum, int p_bpm)
@@ -43,15 +49,24 @@ public class GameManager : MonoBehaviour
         theNote.bpm = p_bpm;
         theStage.RemoveStage();
         theCombo.ResetCombo();
-        theStage.SettingStage();
+        theStage.SettingStage(p_songNum);
         theScore.Initialized();
         thetiming.Initialized();
         theStatus.Initialized();
         thePlayer.Initialized();
+        theResult.SetCurrentSong(p_songNum);
 
         AudioManager.instance.StopBGM();
 
+        lastSongNum = p_songNum;
+        lastBpm = p_bpm;
+
         isStartGame = true;
+    }
+
+    public void RetryGame()
+    {
+        GameStart(lastSongNum, lastBpm);
     }
 
     public void MainMenu()

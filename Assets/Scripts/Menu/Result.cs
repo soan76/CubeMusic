@@ -10,9 +10,16 @@ public class Result : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtScore = null;
     [SerializeField] TextMeshProUGUI txtMaxCombo = null;
 
+    int currentSong = 0;
+    public void SetCurrentSong(int p_songNum)
+    {
+        currentSong = p_songNum;
+    }
+
     ScoreManager theScore;
     ComboManager theCombo;
     TimingManager theTiming;
+    DataManager theDatabase;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,6 +28,7 @@ public class Result : MonoBehaviour
         theScore = FindAnyObjectByType<ScoreManager>();
         theCombo = FindAnyObjectByType<ComboManager>();
         theTiming = FindAnyObjectByType<TimingManager>();
+        theDatabase = FindAnyObjectByType<DataManager>();
     }
 
     public void ShowResult()
@@ -51,6 +59,18 @@ public class Result : MonoBehaviour
         txtScore.text = string.Format("{0:#,##0}", t_currentScore);
         txtMaxCombo.text = string.Format("{0:#,##0}", t_maxCombo);
         txtCoin.text = string.Format("{0:#,##0}", t_coin);
+
+        if(t_currentScore > theDatabase.score[currentSong])
+        {
+            theDatabase.score[currentSong] = t_currentScore;
+            theDatabase.SaveScore();
+        }
+    }
+
+    public void BtnRetry()
+    {
+        goUI.SetActive(false);
+        GameManager.instance.RetryGame();
     }
 
     public void BtnMainMenu()

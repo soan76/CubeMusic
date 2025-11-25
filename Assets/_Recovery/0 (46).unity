@@ -712,8 +712,6 @@ MonoBehaviour:
   - {fileID: 840787423}
   goTitleUI: {fileID: 1620329529}
   isStartGame: 0
-  lastSongNum: 0
-  lastBpm: 0
   theMusic: {fileID: 607058815}
 --- !u!1 &148071186
 GameObject:
@@ -3853,19 +3851,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 911868600}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1494750682}
-        m_TargetAssemblyTypeName: Result, Assembly-CSharp
-        m_MethodName: BtnRetry
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &911868600
 MonoBehaviour:
   m_ObjectHideFlags: 0

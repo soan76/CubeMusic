@@ -18,15 +18,20 @@ public class StageMenu : MonoBehaviour
     [SerializeField] Song[] songList = null;
     [SerializeField] TextMeshProUGUI txtSongName = null;
     [SerializeField] TextMeshProUGUI txtSongComposer = null;
+    [SerializeField] TextMeshProUGUI txtSongScore = null;
     [SerializeField] Image imgDisk = null;
 
     [SerializeField] GameObject TitleMenu = null;
 
+    DataManager theDatabase;
+
     // 현재 선택된 노래 
     int currentSong = 0;
 
-    void Start()
+    void OnEnable()
     {
+        if(theDatabase == null)
+            theDatabase = FindAnyObjectByType<DataManager>();
         SettingSong();
     }
 
@@ -58,6 +63,7 @@ public class StageMenu : MonoBehaviour
     {
         txtSongName.text = songList[currentSong].name;
         txtSongComposer.text = songList[currentSong].composer;
+        txtSongScore.text = string.Format("{0:#,##0}", theDatabase.score[currentSong]);
         imgDisk.sprite = songList[currentSong].sprite;
 
         // 버튼을 누르면 해당 노래가 나오게 함
@@ -72,7 +78,7 @@ public class StageMenu : MonoBehaviour
 
     public void BtnPlay()
     {
-         int t_bpm = songList[currentSong].bpm;
+        int t_bpm = songList[currentSong].bpm;
 
         GameManager.instance.GameStart(currentSong, t_bpm);
         this.gameObject.SetActive(false);
