@@ -40,7 +40,7 @@ public class StageMenu : MonoBehaviour
         // 터치효과 사운드
         AudioManager.instance.PlaySFX("Touch");
 
-        if(++currentSong > songList.Length - 1)
+        if(++currentSong >= songList.Length)
         {
             currentSong = 0; // 마지막 노래에서 다시 처음으로
         }
@@ -72,6 +72,8 @@ public class StageMenu : MonoBehaviour
 
     public void BtnBack()
     {
+        AudioManager.instance.StopBGM();
+
         TitleMenu.SetActive(true);
         this.gameObject.SetActive(false);
     }

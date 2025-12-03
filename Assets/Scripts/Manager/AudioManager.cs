@@ -45,7 +45,8 @@ public class AudioManager : MonoBehaviour
 
     public void StopBGM()
     {
-        bgmPlayer.Stop();
+        if(bgmPlayer != null)
+            bgmPlayer.Stop();
     }
     
     public void PlaySFX(string p_sfxName)
